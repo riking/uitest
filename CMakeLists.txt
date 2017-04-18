@@ -4,9 +4,60 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE string "")
 
 project(uitest)
 
+if(COMMAND cmake_policy)
+	cmake_policy(SET CMP0003 NEW)
+endif()
+
 set(LIBS)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Binaries)
+
+list(APPEND CMAKE_MODULE_PATH
+	${CMAKE_SOURCE_DIR}/CMake
+)
+include(CheckAndAddFlag)
+include(CheckCCompilerFlag)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+	if(NOT OSX_USE_DEFAULT_SEARCH_PATH)
+		list(APPEND CMAKE_PREFIX_PATH "/usr")
+	endif()
+
+	check_and_add_flag(HAVE_MSSSE3 -mssse3)
+	check_and_add_flag(HAVE_ARCH_CORE2 -march=core2)
+
+	# Linker flags
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-dead_strip,-dead_strip_dylibs")
+
+	find_library(APPKIT_LIBRARY AppKit)
+	find_library(APPSERV_LIBRARY ApplicationServices)
+	find_library(CARBON_LIBRARY Carbon)
+	find_library(COCOA_LIBRARY Cocoa)
+	find_library(COREFUND_LIBRARY CoreFoundation)
+	find_library(CORESERV_LIBRARY CoreServices)
+	find_library(FOUNDATION_LIBRARY Foundation)
+	find_library(IOB_LIBRARY IOBluetooth)
+	find_library(IOK_LIBRARY IOKit)
+	find_library(FORCEFEEDBACK ForceFeedback)
+
+	list(APPEND LIBS
+		${APPKIT_LIBRARY}
+		${COREFUND_LIBRARY}
+		${CORESERV_LIBRARY}
+		${IOK_LIBRARY}
+		${FORCEFEEDBACK}
+	)
+endif()
 
 #find_package(HIDAPI)
+
+find_package(ZLIB)
+if(ZLIB_FOUND)
+	message(STATUS "Using shared zlib")
+	include_directories(${ZLIB_INCLUDE_DIRS})
+else()
+	message(STATUS "Shared zlib not found, using static zlib from Externals")
+	message(FATAL_ERROR "do I really need to do this")
+endif()
 
 if(NOT APPLE)
 	check_lib(PNG libpng png png.h QUIET)
