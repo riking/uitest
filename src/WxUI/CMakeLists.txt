@@ -4,7 +4,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(SRCS
 	uihello.cpp
-)
+		configui.cpp ControllerStatus.cpp)
 
 set(WXLIBS ${wxWidgets_LIBRARIES})
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
