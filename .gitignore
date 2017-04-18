@@ -1,0 +1,9 @@
+
+# Mac
+.DS_Store
+._*
+# Build directory
+/[Bb]uild*/
+/[Bb]inary/
+*~
+*.swp
