@@ -57,6 +57,13 @@ template <typename Evt> class BaseEventSource : public EventSource<Evt> {
 			m_cbs.erase(it);
 	}
 
+protected:
+    void Notify(Evt event) {
+        for (auto it = m_cbs.begin(); it != m_cbs.end(); ++it) {
+            it.right(event);
+        }
+    }
+
   private:
 	int m_id_max;
 	std::vector<cb_container> m_cbs;
