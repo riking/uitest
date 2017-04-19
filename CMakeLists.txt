@@ -16,6 +16,7 @@ list(APPEND CMAKE_MODULE_PATH
 )
 include(CheckAndAddFlag)
 include(CheckCCompilerFlag)
+include(CheckLib)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	if(NOT OSX_USE_DEFAULT_SEARCH_PATH)
@@ -83,6 +84,8 @@ else()
 endif()
 list(APPEND LIBS ${ICONV_LIBRARIES})
 
+find_package(X11)
+
 # wxWidgets
 if (1)
 	find_package(wxWidgets COMPONENTS core aui adv)
@@ -95,7 +98,7 @@ if (1)
 			ERROR_QUIET
 			)
 		message(STATUS "Found wxWidgets version ${wxWidgets_VERSION}")
-		set(wxMIN_VERSION "3.1.0")
+		set(wxMIN_VERSION "3.0.0")
 		if (${wxWidgets_VERSION} VERSION_LESS ${wxMIN_VERSION})
 			message(STATUS "Ignoring wxWidgets version ${wxWidgets_VERSION}; at least ${wxMIN_VERSION} is required")
 			unset(wxWidgets_FOUND)
