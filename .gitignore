@@ -5,6 +5,7 @@
 # Build directory
 /[Bb]uild*/
 /[Bb]inary/
+/cmake-build-debug/
 *~
 *.swp
 # IDE files
