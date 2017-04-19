@@ -5,6 +5,7 @@
 #ifndef UITEST_EVENTSOURCE_H
 #define UITEST_EVENTSOURCE_H
 
+#include <algorithm>
 #include <functional>
 #include <vector>
 

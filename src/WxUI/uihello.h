@@ -30,4 +30,7 @@ class MainFrame : public wxFrame {
 class ControllerStatusPanel : public wxPanel {
   public:
 	ControllerStatusPanel(wxWindow *parent);
+
+private:
+	std::array<wxPanel *, 4> m_controller_boxes;
 };

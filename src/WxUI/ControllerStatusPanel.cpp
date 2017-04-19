@@ -38,7 +38,6 @@ ControllerStatusPanel::ControllerStatusPanel(wxWindow *parent)
 	wxBoxSizer *const controllers_container = new wxBoxSizer(wxHORIZONTAL);
 	{
 		wxBoxSizer *const controllers_sizer = new wxBoxSizer(wxHORIZONTAL);
-		std::array<wxPanel *, 4> controller_boxes = {};
 		const wxSize box_size = wxSize(FromDIP(128), FromDIP(128));
 		const int box_spacer = FromDIP(16);
 

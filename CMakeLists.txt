@@ -49,6 +49,17 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	)
 endif()
 
+if (UNIX AND NOT APPLE AND NOT ANDROID)
+	find_package(X11)
+	if (X11_FOUND)
+		include_directories(${X11_INCLUDE_DIR})
+	else()
+		message(FATAL_ERROR "\n" "x11 not found")
+	endif()
+	check_lib(XRANDR xrandr Xrandr)
+	list(APPEND LIBS SM)
+endif()
+
 #find_package(HIDAPI)
 
 find_package(ZLIB)
@@ -83,8 +94,6 @@ else()
 	set(ICONV_LIBRARIES iconv)
 endif()
 list(APPEND LIBS ${ICONV_LIBRARIES})
-
-find_package(X11)
 
 # wxWidgets
 if (1)

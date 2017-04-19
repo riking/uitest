@@ -12,8 +12,8 @@ set(SRCS
 
 set(WXLIBS ${wxWidgets_LIBRARIES})
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-	set(WXLIBS ${WXLIBS} dl)
+	set(WXLIBS ${WXLIBS} dl pthread)
 endif()
 
 add_executable(uitest ${SRCS})
-target_link_libraries(uitest ${LIBS} ${WXLIBS})
+target_link_libraries(uitest ${WXLIBS} ${LIBS})
