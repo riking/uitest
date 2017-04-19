@@ -6,6 +6,7 @@ enum { ID_Hello = 1 };
 wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit() {
+	wxImage::AddHandler(new wxPNGHandler());
 	MainFrame *frame = new MainFrame();
 	frame->Show(true);
 	return true;
@@ -23,6 +24,12 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "Hello World") {
 	menuBar->Append(menuFile, "&File");
 	menuBar->Append(menuHelp, "&Help");
 	SetMenuBar(menuBar);
+
+	ControllerStatusPanel *controller_status = new ControllerStatusPanel(this);
+	wxBoxSizer *const sizer = new wxBoxSizer(wxVERTICAL);
+	sizer->Add(controller_status, 0, wxCENTER);
+	SetSizer(sizer);
+
 	CreateStatusBar();
 	SetStatusText("Welcome to wxWidgets!");
 	Bind(wxEVT_MENU, &MainFrame::OnHello, this, ID_Hello);
