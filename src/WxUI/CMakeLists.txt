@@ -6,7 +6,9 @@ set(SRCS
 	uihello.cpp
 	configui.cpp
 	ControllerStatusPanel.cpp
-		asset.cpp asset.h)
+	asset.cpp
+	asset-drawing.cpp
+	asset.h)
 
 set(WXLIBS ${wxWidgets_LIBRARIES})
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
