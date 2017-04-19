@@ -57,13 +57,44 @@ constexpr uint32_t pairWaitingColor(uint32_t body_color) {
 void DrawSidewaysPairWaiting(wxWindowBase *dip, wxDC *dc, DynamicAssetRequest &req) {
 	const wxBrush brushBody = wxBrush(pairWaitingColor(req.body_color));
 	const wxBrush *brushButtons = wxTRANSPARENT_BRUSH;
-	const int stick1 = dip->FromDIP(24);
+	const int tenpx = dip->FromDIP(10);
+	const int button_size = dip->FromDIP(4);
+	const int stick_size = button_size * 2;
+	const int sl_size = tenpx;
+	const int sl_border = dip->FromDIP(3);
+	const int sl_body = sl_size - sl_border;
+	const int sl_flat = stick_size;
+
+	// __/¯¯|__|¯¯\__
+	// |   .-.  o   |
+	// \___^-^_°o°__/
 
 	dc->SetBrush(brushBody);
-	dc->DrawRectangle(wxPoint(stick1 * 1, stick1 * 3), wxSize(stick1 * 5, stick1 * 1));
-	dc->DrawEllipticArc(wxPoint(stick1 * 1, stick1 * 4), wxSize(stick1, stick1), 180, 270);
-	dc->DrawRectangle(wxPoint(stick1 * 2, stick1 * 4), wxSize(stick1 * 3, stick1 * 1));
-	dc->DrawEllipticArc(wxPoint(stick1 * 5, stick1 * 4), wxSize(stick1, stick1), 270, 0);
+	// joycon body
+	dc->DrawRectangle(wxPoint(tenpx * 1, tenpx * 3), wxSize(tenpx * 5, tenpx * 1));
+	dc->DrawEllipticArc(wxPoint(tenpx * 1, tenpx * 4), wxSize(tenpx, tenpx), 180, 270);
+	dc->DrawRectangle(wxPoint(tenpx * 2, tenpx * 4), wxSize(tenpx * 3, tenpx * 1));
+	dc->DrawEllipticArc(wxPoint(tenpx * 5, tenpx * 4), wxSize(tenpx, tenpx), 270, 0);
+	// sl/sr background
+	const int sl_edge_to_border = tenpx - sl_border;
+	if (req.asset_style == ASSET_PAIR_WAITING_2 || req.asset_style == ASSET_PAIR_MISSING_2) {
+		dc->DrawRectangle(wxPoint(tenpx * 1 + sl_edge_to_border, tenpx * 3 - sl_border),
+			wxSize(sl_body + sl_border * 2, sl_border));
+		dc->DrawRectangle(wxPoint(tenpx * 6 - sl_edge_to_border - (sl_body + sl_border * 2),
+			tenpx * 3 - sl_border), wxSize(sl_body + sl_border * 2, sl_border));
+	} else {
+		// todo sr
+		dc->DrawEllipticArc(wxPoint(tenpx * 1 + sl_edge_to_border, tenpx * 3 - sl_size),
+				wxSize(sl_size, sl_size), 90, 180);
+		dc->DrawRectangle(wxPoint(tenpx * 1 + sl_edge_to_border + sl_size, tenpx * 3 - sl_size),
+			wxSize(sl_body + sl_border, sl_size));
+		dc->SetBrush(*wxBLUE_BRUSH);
+		dc->DrawEllipticArc(wxPoint(tenpx * 1 + sl_edge_to_border + sl_border, tenpx * 3 - sl_body),
+							wxSize(sl_body, sl_body), 90, 180);
+		dc->DrawRectangle(wxPoint(tenpx * 1 + sl_edge_to_border + sl_size + sl_border, tenpx * 3 - sl_body),
+						  wxSize(sl_body, sl_size));
+		dc->SetBrush(brushBody);
+	}
 }
 }
 
